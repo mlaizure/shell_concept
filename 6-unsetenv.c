@@ -14,6 +14,7 @@ char **split_delim(char *, const char *);
 char * _getenv(const char *name);
 int findenv(const char *name);
 int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
 
 int main(void)
 {
@@ -23,6 +24,21 @@ int main(void)
 	printf("PATH: %s\n", PATH);
 	_setenv("FOO", "bar", 1);
 	printf("FOO: %s\n", _getenv("FOO"));
+	_unsetenv("FOO");
+	printf("FOO: %s\n", _getenv("FOO"));
+	return (0);
+}
+
+int _unsetenv(const char *name)
+{
+	int idx, i = 0;
+
+	idx = findenv(name);
+	if (environ[idx])
+	{
+		for (i = idx; environ[i]; ++i)
+			environ[i] = environ[i + 1];
+	}
 	return (0);
 }
 
